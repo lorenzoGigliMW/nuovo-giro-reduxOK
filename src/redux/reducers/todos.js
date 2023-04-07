@@ -7,12 +7,6 @@ export const selectors = {
     fetchStatus: state => state.fetchStatus
   }  
 
-// export const setTasks=(taskk)=> {
-//     // this.setState({ tasks: taskk })
-//    selectors.tasks=taskk
-// };
-
-  
 const initialState = {
     tasks: [],
     fetchStatus: ''

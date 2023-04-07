@@ -1,19 +1,14 @@
-import React, { Component } from "react";//useState, useRef, useEffect,
+import React, { Component } from "react";
 import Todo from "./components/Todo";
 import Form from "./components/Form";
 //import FilterButton from "./components/FilterButton";
 //import { nanoid } from "nanoid";
 import FilterButton from "./components/FilterButton";
-import axios from 'axios';
-import PropTypes from 'prop-types'
-import{selectors,setTasks} from './redux/reducers/prova'
-//const variabile_redux= selectors.tasks;
-
-
-
+//import axios from 'axios';
+import PropTypes from 'prop-types';
 
 //import { Routes, Route } from 'react-router-dom';
-//import Home from './Pages/Home';
+
 // function usePrevious(value) {  // gestione da tastiera
 //   const ref = useRef();
 //   useEffect(() => {
@@ -21,11 +16,7 @@ import{selectors,setTasks} from './redux/reducers/prova'
 //   });
 //   return ref.current;
 // }
-// const DATA = [
-//   { id: "todo-0", name: "Eat", completed: true },
-//   { id: "todo-1", name: "Sleep", completed: false },
-//   { id: "todo-2", name: "Repeat", completed: false }
-// ];
+
 const FILTER_MAP = {    //vari campi di Filtraggio e funzionalità
   All: () => true,
   Active: (task) => !task.completed,
@@ -40,123 +31,124 @@ class App extends Component {
     super(props);
     this.state = {
       filter: 'All',
-      //tasks:props.tasks //variabile_redux
+      tasks:props.tasks //variabile_redux
+   
     }
+     debugger
     this.listHeadingRef = React.createRef();
-
   }
-
   setFilter(filter) {
     this.setState({ filter: filter })
   }
-  // setTasks(taskk) {
-  //   this.setState({ /*variabile_redux*/tasks: taskk })
-  // }
+  setTasks(taskk) {
+    this.setState({ /*variabile_redux*/tasks: taskk })
+  }
 
   //EDITO UNA TASK
   editTask = (id, newName) => {
+    // axios.post('http://localhost:3005/api/todo/edit/' + id, { name: newName }, {
+    //   'Access-Control-Allow-Origin': '*',
+    //   'Content-Type': 'application/json',
+    // },)
+    //   .then((res) => {
+    //     //this.setTasks({ name: res.newName })
+    //     console.log(res.data)
+    //     //this.visualizzaTodo();
+    //   }).catch((error) => {
+    //     console.log(error)
+    //   });
 
-    axios.post('http://localhost:3005/api/todo/edit/' + id, { name: newName }, {
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json',
-    },)
-      .then((res) => {
-        //this.setTasks({ name: res.newName })
-        console.log(res.data)
-        //this.visualizzaTodo();
-      }).catch((error) => {
-        console.log(error)
-      });
-
-    const editedTaskList = selectors.tasks.map((task) => {
-      // if this task has the same ID as the edited task
-      if (id === task.id) {
-        //
-        return { ...task, name: newName }
-      }
-      return task;
-    });
-    setTasks(editedTaskList);
+    // const editedTaskList = this.state.tasks().map((task) => {
+    //   // if this task has the same ID as the edited task
+    //   if (id === task.id) {
+    //     //
+    //     return { ...task, name: newName }
+    //   }
+    //   return task;
+    // });
+   // this.setTasks(editedTaskList);
+   this.props.taskEdit(id,newName)
   }
-
-  // const [tasks, setTasks] = useState(props.tasks);
 
   //AGGIUNGO UNA TASK
   addTask = (idAdd, nameAdd) => {
 
-    axios.post('http://localhost:3005/api/todo/add', { id: idAdd, name: nameAdd }, {
-    }, //{ id: idAdd, name: nameAdd }
-
-    )
-      .then(function (response) {
-        //this.setTasks({id:response.id,name:response.name})
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });                //aggiunge task
-    const newTask = { id: idAdd, name: nameAdd, completed: false };  // nano serve per gli id univoci
-    setTasks([...selectors.tasks, newTask])
+    // axios.post('http://localhost:3005/api/todo/add', { id: idAdd, name: nameAdd }, {
+    // }, //{ id: idAdd, name: nameAdd }
+    // )
+    //   .then(function (response) {
+    //     //this.setTasks({id:response.id,name:response.name})
+    //     console.log(response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });                //aggiunge task
+    const newTask = { id: idAdd, name: nameAdd, completed: false };
+    //this.setTasks([...this.state.tasks, newTask])
+    this.props.taskAdd(newTask)
     //alert("task "+ name +" aggiunta");
 
   }
 
   //SETTO COMPLETED A TRUE PER TUTTE LE TASK
   mostraTodo = () => {
-    axios.post('http://localhost:3005/api/todos', {
+    // axios.post('http://localhost:3005/api/todos', {
 
-    }, {})//
+    // }, {})//
+    //   .then(function (response) {
+    //     //this.setTasks(response.data)
+    //     console.log(response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
 
-      .then(function (response) {
-        //this.setTasks(response.data)
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-
-    const TaskCompleted = selectors.tasks.map((task) => {
-      return { completed: true }
-
-    }
-    )
-    setTasks(TaskCompleted)
+    // const TaskCompleted = this.state.tasks.map((task) => {
+    //   return { completed: true }
+    // }
+    // )
+    // this.setTasks(TaskCompleted)
+    // this.visualizzaTodo();
+    
+    this.props.taskSeeAll()
     this.visualizzaTodo();
   }
 
   //ELIMINO UNA TASK
   deleteTask = (id) => {
-    axios.delete('http://localhost:3005/api/todo/del/' + id, {}, {})
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    const remainingTasks = selectors.tasks.filter((task) => id !== task.id);
-    setTasks(remainingTasks);
+    // axios.delete('http://localhost:3005/api/todo/del/' + id, {}, {})
+    //   .then(function (response) {
+    //     console.log(response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+    // const remainingTasks =this.state.tasks.filter((task) => id !== task.id);
+    // this.setTasks(remainingTasks);
+    this.props.taskCancel(id)
   }
 
 
 
   //RICONOSCE IL CLICK INVERTE COMPLETED SU UNA TASK
   toggleTaskCompleted = (id) => {
-    const updatedTasks = selectors.tasks.map((task) => {
-      // if this task has the same ID as the edited task
-      if (id === task.id) {
-        // use object spread to make a new object
-        // whose `completed` prop has been inverted
-        return { ...task, completed: !task.completed }
-      }
-      return task;
-    });
-    setTasks(updatedTasks);
+    // const updatedTasks = this.state.tasks.map((task) => {
+    //   // if this task has the same ID as the edited task
+    //   if (id === task.id) {
+    //     // use object spread to make a new object
+    //     // whose `completed` prop has been inverted
+    //     return { ...task, completed: !task.completed }
+    //   }
+    //   return task;
+    // });
+    // this.setTasks(updatedTasks);
+    this.props.taskToggle(id)
   }
 
   //VISUALIZZA LISTA TASK DATO UN FILTRO
   taskList = () => {
     //debugger
-    const tastksState = selectors.tasks;
+    const tastksState = this.props.tasks 
     return tastksState.filter(FILTER_MAP[this.state.filter]).map((task) => (  //mappo solo quelli che rispecchiano il filtro
       <Todo
         id={task.id}
@@ -178,13 +170,11 @@ class App extends Component {
       isPressed={name === this.state.filter}
       setFilter={() => this.setFilter(name)}
     />
-
   ));
 
   // tasksNoun = taskList.length !== 1 ? 'tasks' : 'task';
   // headingText = `${taskList.length} ${tasksNoun} remaining`;
   // listHeadingRef = useRef(null);
-
   // prevTaskLength = usePrevious(this.state.tasks.length);   //Gestione focus da tastiera dopo delete
   // useEffect(() => {                                    //
   //   if (this.state.tasks.length - prevTaskLength === -1) {        //
@@ -196,39 +186,40 @@ class App extends Component {
   //GET VISUALIZZA TASKS
   visualizzaTodo = () => {//filtro
     // contesto della funzione dentro
-    axios.get('http://localhost:3005/api/todos')
-      .then((response) => {
+  //   axios.get('http://localhost:3005/api/todos')
+  //     .then((response) => {
 
-        setTasks(response.data) ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // handle success
-        console.log(response);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-      .finally(function () {
-        // always executed
-      });
-  };
-
-
+  //       this.setTasks(response.data) //////////////
+  //       // handle success
+  //       console.log(response);
+  //     })
+  //     .catch(function (error) {
+  //       // handle error
+  //       console.log(error);
+  //     })
+  //     .finally(function () {
+  //       // always executed
+  //     });
+  // };
+  this.props.taskVisualTodo()
+  }
   componentDidMount = () => {
 
-
     //visualizza task che non hanno un determinato id "eliminato"
-
     this.visualizzaTodo();//this.state.filter
-
   }
-
   // funzioneDentro.bind(this)();
-
+  
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (selectors.tasks.length !== prevState.selectors.tasks.length) {
+    if (this.state.tasks.length !== prevState.tasks.length) {
       this.listHeadingRef.current.focus();
     }
   }
+  //   componentDidUpdate(prevProps, prevState, snapshot) {
+  //   if (this.props.tasks.length !== prevState.tasks.length) {
+  //     this.listHeadingRef.current.focus();
+  //   }
+  // }
 
 
 
@@ -274,8 +265,6 @@ class App extends Component {
         </ul>
         <h1>Mostra Todo</h1>
         <button type="submit" onClick={() => this.mostraTodo(/*this.state.tasks.id,this.state.tasks.completed*/)}>Click to lista Todo</button>
-
-
       </div>
     );
   }
