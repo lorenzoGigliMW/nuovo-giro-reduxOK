@@ -1,6 +1,6 @@
 import App from "../App";
 //import {tasksFetchEdit, tasksFetchSeeAll, tasksFetchToggle ,tasksFetchAdd,tasksFetchCancel} from "../redux/actions/todos";
-import {taskEdit,taskAdd,taskCancel,taskToggle,taskSeeAll,taskVisualTodo} from "../redux/actions/prova"
+import {taskEdit,taskAdd,taskCancel,taskToggle,taskSeeAll/*,taskVisualTodo*/} from "../redux/actions/prova"
 import{connect} from 'react-redux'
 //import {selectors} from "../redux/reducers/prova";
 
@@ -25,7 +25,7 @@ const mapStateToProps = (state) => {
       taskCancel:(id)=> dispatch(taskCancel(id)),
       taskToggle:(id)=>dispatch(taskToggle(id)),
       taskSeeAll:()=> dispatch(taskSeeAll()),
-      taskVisualTodo:()=> dispatch(taskVisualTodo())
+      //taskVisualTodo:()=> dispatch(taskVisualTodo())
     };
   };
   export default connect(mapStateToProps,mapDispatchToProps)(App);

@@ -1,5 +1,5 @@
 import {
-  TASK_ADD,TASK_EDIT,TASK_CANCEL,TASK_TOGGLED,TASK_SEEALL,TASK_VISUALTODO
+  TASK_ADD,TASK_EDIT,TASK_CANCEL,TASK_TOGGLED,TASK_SEEALL//,TASK_VISUALTODO
 } from '../actions/prova';
 export const selectors = {
     tasks: state => state.tasks
