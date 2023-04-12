@@ -44,13 +44,13 @@ export default function reducer(state = initialState, action) {
       case TASK_SEEALL:
           return {
               ...state,
-              tasks:state.tasks.map(task => (true) ? {...task, completed:true} : task)    
+              tasks:state.tasks.map(task => (true) ? {...task,completed:true} : task)    
           };
-      case TASK_VISUALTODO:
-        return {
-          ...state,
-          tasks: [...state.tasks]
-            };
+      // case TASK_VISUALTODO:
+      //   return {
+      //     ...state,
+      //     tasks:[...state.tasks]
+      //       };
         default:
           return state;
     }

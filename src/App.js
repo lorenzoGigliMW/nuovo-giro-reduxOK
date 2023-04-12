@@ -158,29 +158,29 @@ class App extends Component {
   ));
 
   //GET VISUALIZZA TASKS
-  visualizzaTodo = () => {//filtro
+  // visualizzaTodo = () => {//filtro
     //contesto della funzione dentro
-    axios.get('http://localhost:3005/api/todos')
-      .then((response) => {
+  //   axios.get('http://localhost:3005/api/todos')
+  //     .then((response) => {
 
-        //this.setTasks(response.data) //////////////
-        // handle success
-        console.log(response);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-      .finally(function () {
-        // always executed
-      });
-  };
+  //       //this.setTasks(response.data) //////////////
+  //       // handle success
+  //       console.log(response);
+  //     })
+  //     .catch(function (error) {
+  //       // handle error
+  //       console.log(error);
+  //     })
+  //     .finally(function () {
+  //       // always executed
+  //     });
+  // };
   // this.props.taskVisualTodo()
   // }
   componentDidMount = () => {
 
     //visualizza task che non hanno un determinato id "eliminato"
-    this.visualizzaTodo();
+    // this.visualizzaTodo();
   }
   
   componentDidUpdate(prevProps, prevState, snapshot) {

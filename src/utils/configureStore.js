@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { combineReducers} from 'redux';
 import prova from '../redux/reducers/prova';
-  const rootReducer = combineReducers({prova/*selectors, filter: reducerFilter*/})
+  const rootReducer = combineReducers({prova})/*selectors, filter: reducerFilter*/
 
                                       //   MIDDELWARE
 const logger = store => (next) => {
@@ -28,6 +28,7 @@ const logger = store => (next) => {
   // };
 
 const store = configureStore({
-    reducer: rootReducer, middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger)//.concat(asyncMiddleware)
+    reducer: rootReducer, middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger) //.concat(asyncMiddleware)
+    
 })
 export default store
