@@ -7,8 +7,8 @@ export const selectors = {
   
   
   const DATA = [
-  { id: "todo-0", name: "Eat", completed: true },
-  { id: "todo-1", name: "Sleep", completed: false },
+  { id: "todo-0", name: "Eat", completed: false },
+  { id: "todo-1", name: "Sleep", completed: true },
   { id: "todo-2", name: "Repeat", completed: false }
 ];
 
@@ -18,7 +18,7 @@ const initialState = {
 };
 
 export default function reducer(state = initialState, action) {
-debugger
+
   switch (action.type) {
     case TASK_ADD:
         return {
@@ -48,7 +48,8 @@ debugger
           };
       case TASK_VISUALTODO:
         return {
-          ...state  
+          ...state,
+          tasks: [...state.tasks]
             };
         default:
           return state;

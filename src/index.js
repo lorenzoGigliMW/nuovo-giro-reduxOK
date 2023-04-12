@@ -16,14 +16,14 @@ import configureStore/*,{store}*/ from '../src/utils/configureStore'
 //   { id: "todo-1", name: "Sleep", completed: false },
 //   { id: "todo-2", name: "Repeat", completed: false }
 // ];
-const preloadedState = window.__PRELOADED_STATE__
+//const preloadedState = window.__PRELOADED_STATE__         serverState={preloadedState}
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 
   <React.StrictMode> 
-    <Provider store={configureStore} serverState={preloadedState} >
+    <Provider store={configureStore} >
       <Container/>
     </Provider>  
   </React.StrictMode>

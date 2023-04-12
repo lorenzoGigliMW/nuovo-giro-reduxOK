@@ -1,21 +1,9 @@
 import React, { Component } from "react";
 import Todo from "./components/Todo";
 import Form from "./components/Form";
-//import FilterButton from "./components/FilterButton";
-//import { nanoid } from "nanoid";
 import FilterButton from "./components/FilterButton";
-//import axios from 'axios';
 import PropTypes from 'prop-types';
-
-//import { Routes, Route } from 'react-router-dom';
-
-// function usePrevious(value) {  // gestione da tastiera
-//   const ref = useRef();
-//   useEffect(() => {
-//     ref.current = value;
-//   });
-//   return ref.current;
-// }
+import axios from 'axios';
 
 const FILTER_MAP = {    //vari campi di Filtraggio e funzionalità
   All: () => true,
@@ -31,44 +19,18 @@ class App extends Component {
     super(props);
     this.state = {
       filter: 'All',
-      tasks:props.tasks //variabile_redux
-   
+      tasks:props.tasks
     }
-     debugger
     this.listHeadingRef = React.createRef();
   }
   setFilter(filter) {
-    this.setState({ filter: filter })
+    this.setState({filter: filter})
   }
   setTasks(taskk) {
-    this.setState({ /*variabile_redux*/tasks: taskk })
+    this.setState({tasks: taskk})
   }
 
-  //EDITO UNA TASK
-  editTask = (id, newName) => {
-    // axios.post('http://localhost:3005/api/todo/edit/' + id, { name: newName }, {
-    //   'Access-Control-Allow-Origin': '*',
-    //   'Content-Type': 'application/json',
-    // },)
-    //   .then((res) => {
-    //     //this.setTasks({ name: res.newName })
-    //     console.log(res.data)
-    //     //this.visualizzaTodo();
-    //   }).catch((error) => {
-    //     console.log(error)
-    //   });
 
-    // const editedTaskList = this.state.tasks().map((task) => {
-    //   // if this task has the same ID as the edited task
-    //   if (id === task.id) {
-    //     //
-    //     return { ...task, name: newName }
-    //   }
-    //   return task;
-    // });
-   // this.setTasks(editedTaskList);
-   this.props.taskEdit(id,newName)
-  }
 
   //AGGIUNGO UNA TASK
   addTask = (idAdd, nameAdd) => {
@@ -90,32 +52,35 @@ class App extends Component {
 
   }
 
-  //SETTO COMPLETED A TRUE PER TUTTE LE TASK
-  mostraTodo = () => {
-    // axios.post('http://localhost:3005/api/todos', {
-
-    // }, {})//
-    //   .then(function (response) {
-    //     //this.setTasks(response.data)
-    //     console.log(response);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
-
-    // const TaskCompleted = this.state.tasks.map((task) => {
-    //   return { completed: true }
-    // }
-    // )
-    // this.setTasks(TaskCompleted)
-    // this.visualizzaTodo();
-    
-    this.props.taskSeeAll()
-    this.visualizzaTodo();
-  }
+    //EDITO UNA TASK
+    editTask = (id, newName) => {
+      this.props.taskEdit(id,newName)
+      // axios.post('http://localhost:3005/api/todo/edit/' + id, { name: newName }, {
+      //   'Access-Control-Allow-Origin': '*',
+      //   'Content-Type': 'application/json',
+      // },)
+      //   .then((res) => {
+      //     //this.setTasks({ name: res.newName })
+      //     console.log(res.data)
+      //     //this.visualizzaTodo();
+      //   }).catch((error) => {
+      //     console.log(error)
+      //   });
+  
+      // const editedTaskList = this.state.tasks().map((task) => {
+      //   // if this task has the same ID as the edited task
+      //   if (id === task.id) {
+      //     //
+      //     return { ...task, name: newName }
+      //   }
+      //   return task;
+      // });
+     // this.setTasks(editedTaskList);  
+    }
 
   //ELIMINO UNA TASK
   deleteTask = (id) => {
+    this.props.taskCancel(id)
     // axios.delete('http://localhost:3005/api/todo/del/' + id, {}, {})
     //   .then(function (response) {
     //     console.log(response);
@@ -124,14 +89,14 @@ class App extends Component {
     //     console.log(error);
     //   });
     // const remainingTasks =this.state.tasks.filter((task) => id !== task.id);
-    // this.setTasks(remainingTasks);
-    this.props.taskCancel(id)
+    // this.setTasks(remainingTasks); 
   }
 
 
 
   //RICONOSCE IL CLICK INVERTE COMPLETED SU UNA TASK
-  toggleTaskCompleted = (id) => {
+  toggleTaskCompleted = (id) => { 
+    this.props.taskToggle(id)
     // const updatedTasks = this.state.tasks.map((task) => {
     //   // if this task has the same ID as the edited task
     //   if (id === task.id) {
@@ -141,13 +106,33 @@ class App extends Component {
     //   }
     //   return task;
     // });
-    // this.setTasks(updatedTasks);
-    this.props.taskToggle(id)
+    // this.setTasks(updatedTasks); 
   }
+
+    //SETTO COMPLETED A TRUE PER TUTTE LE TASK
+    mostraTodo = () => {
+      // axios.post('http://localhost:3005/api/todos', {
+      // }, {})//
+      //   .then(function (response) {
+      //     //this.setTasks(response.data)
+      //     console.log(response);
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   });
+     
+     
+       const TaskCompleted = this.state.tasks.map((task) => {
+        return {...task,completed: true };   
+    }) 
+      
+      //this.visualizzaTodo();      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      this.setTasks(TaskCompleted); 
+      this.props.taskSeeAll();     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    }
 
   //VISUALIZZA LISTA TASK DATO UN FILTRO
   taskList = () => {
-    //debugger
     const tastksState = this.props.tasks 
     return tastksState.filter(FILTER_MAP[this.state.filter]).map((task) => (  //mappo solo quelli che rispecchiano il filtro
       <Todo
@@ -163,6 +148,7 @@ class App extends Component {
   };
 
   filterList = () => FILTER_NAMES.map((name) => (
+    
     <FilterButton                         // invoco filterButton con i seguenti props
       key={name}
       name={name}
@@ -170,76 +156,41 @@ class App extends Component {
       isPressed={name === this.state.filter}
       setFilter={() => this.setFilter(name)}
     />
+    
   ));
-
-  // tasksNoun = taskList.length !== 1 ? 'tasks' : 'task';
-  // headingText = `${taskList.length} ${tasksNoun} remaining`;
-  // listHeadingRef = useRef(null);
-  // prevTaskLength = usePrevious(this.state.tasks.length);   //Gestione focus da tastiera dopo delete
-  // useEffect(() => {                                    //
-  //   if (this.state.tasks.length - prevTaskLength === -1) {        //
-  //     listHeadingRef.current.focus();
-  //   }
-  // }, [this.state.tasks.length, prevTaskLength]);
-
 
   //GET VISUALIZZA TASKS
   visualizzaTodo = () => {//filtro
-    // contesto della funzione dentro
-  //   axios.get('http://localhost:3005/api/todos')
-  //     .then((response) => {
+    //contesto della funzione dentro
+    axios.get('http://localhost:3005/api/todos')
+      .then((response) => {
 
-  //       this.setTasks(response.data) //////////////
-  //       // handle success
-  //       console.log(response);
-  //     })
-  //     .catch(function (error) {
-  //       // handle error
-  //       console.log(error);
-  //     })
-  //     .finally(function () {
-  //       // always executed
-  //     });
-  // };
-  this.props.taskVisualTodo()
-  }
+        //this.setTasks(response.data) //////////////
+        // handle success
+        console.log(response);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .finally(function () {
+        // always executed
+      });
+  };
+  // this.props.taskVisualTodo()
+  // }
   componentDidMount = () => {
 
     //visualizza task che non hanno un determinato id "eliminato"
-    this.visualizzaTodo();//this.state.filter
+    this.visualizzaTodo();
   }
-  // funzioneDentro.bind(this)();
   
   componentDidUpdate(prevProps, prevState, snapshot) {
+   
     if (this.state.tasks.length !== prevState.tasks.length) {
       this.listHeadingRef.current.focus();
     }
   }
-  //   componentDidUpdate(prevProps, prevState, snapshot) {
-  //   if (this.props.tasks.length !== prevState.tasks.length) {
-  //     this.listHeadingRef.current.focus();
-  //   }
-  // }
-
-
-
-  // setEditModal = (id) => {
-
-  //   const xhttp = new XMLHttpRequest();
-
-  //   xhttp.open("GET", `http://localhost:3005/api/${id}`, false);
-  //   xhttp.send();
-
-  //   const book = JSON.parse(xhttp.responseText);
-
-  //   const {
-  //       name
-  //   } = tasks;
-
-  //   document.getElementById('id').value = id;
-  //   document.getElementById('name').value = name;
-  //   document.getElementById('editForm').action = `http://localhost:3005/api/todo/${id}`;
-  // }
 
   render = () => {
     const tasksNoun = this.taskList().length !== 1 ? 'tasks' : 'task';
@@ -252,6 +203,7 @@ class App extends Component {
         <Form addTask={this.addTask} />
         <div className="filters btn-group stack-exception">
           {this.filterList()}
+          
         </div>
         <h2 id="list-heading" tabIndex="-1" ref={this.listHeadingRef}>
           {headingText}
