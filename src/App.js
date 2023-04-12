@@ -119,15 +119,13 @@ class App extends Component {
       //   })
       //   .catch(function (error) {
       //     console.log(error);
-      //   });
-     
-     
-       const TaskCompleted = this.state.tasks.map((task) => {
-        return {...task,completed: true };   
-    }) 
+      //   });  
+    //    const TaskCompleted = this.state.tasks.map((task) => {
+    //     return {...task,completed: true };   
+    // }) 
       
-      //this.visualizzaTodo();      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      this.setTasks(TaskCompleted); 
+    //   //this.visualizzaTodo();      
+    //   this.setTasks(TaskCompleted); 
       this.props.taskSeeAll();     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
