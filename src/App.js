@@ -3,7 +3,7 @@ import Todo from "./components/Todo";
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import PropTypes from 'prop-types';
-import axios from 'axios';
+
 
 const FILTER_MAP = {    //vari campi di Filtraggio e funzionalità
   All: () => true,
