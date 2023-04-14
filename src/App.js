@@ -178,9 +178,8 @@ class App extends Component {
   // this.props.taskVisualTodo()
   // }
   componentDidMount = () => {
-
-    //visualizza task che non hanno un determinato id "eliminato"
-    // this.visualizzaTodo();
+      //visualizza task che non hanno un determinato id "eliminato"
+    this.props.taskVisualTodo();
   }
   
   componentDidUpdate(prevProps, prevState, snapshot) {

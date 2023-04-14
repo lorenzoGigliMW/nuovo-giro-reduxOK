@@ -1,4 +1,7 @@
 import {
+  CONFIGURATION_SERVER_FETCH, CONFIGURATION_SERVER_FETCH_CANCEL, CONFIGURATION_SERVER_FETCH_FULFILLED,
+  CONFIGURATION_SERVER_FETCH_REJECTED,
+  
   TASK_ADD,TASK_EDIT,TASK_CANCEL,TASK_TOGGLED,TASK_SEEALL//,TASK_VISUALTODO
 } from '../actions/prova';
 export const selectors = {
@@ -6,11 +9,7 @@ export const selectors = {
   }  
   
   
-  const DATA = [
-  { id: "todo-0", name: "Eat", completed: false },
-  { id: "todo-1", name: "Sleep", completed: true },
-  { id: "todo-2", name: "Repeat", completed: false }
-];
+  const DATA = [];
 
 
 const initialState = {
@@ -49,8 +48,36 @@ export default function reducer(state = initialState, action) {
       // case TASK_VISUALTODO:
       //   return {
       //     ...state,
-      //     tasks:[...state.tasks]
+      //     tasks:[...action.tasks]
       //       };
+      case CONFIGURATION_SERVER_FETCH:
+      return {
+        ...state,
+        isFetching: true,
+        fetchStatus: `fetching... ${(new Date()).toLocaleString()}`,
+        data: null,
+        lastUpdate: null
+      };
+    case CONFIGURATION_SERVER_FETCH_FULFILLED:
+      return {
+        ...state,
+        data: action.data,
+        isFetching: false,
+        fetchStatus: `Results from ${(new Date()).toLocaleString()}`,
+        lastUpdate: action.lastUpdate
+      };
+    case CONFIGURATION_SERVER_FETCH_REJECTED:
+      return {
+        ...state,
+        isFetching: false,
+        fetchStatus: `errored: ${action.payload}`
+      };
+    case CONFIGURATION_SERVER_FETCH_CANCEL:
+      return {
+        ...state,
+        isFetching: false,
+        fetchStatus: 'user cancelled'
+      };
         default:
           return state;
     }

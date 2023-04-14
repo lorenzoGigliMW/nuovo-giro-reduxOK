@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { combineReducers} from 'redux';
+import { createEpicMiddleware } from 'redux-observable';
+
 import prova from '../redux/reducers/prova';
+import provaEpic from '../redux/epic/prova';
   const rootReducer = combineReducers({prova})/*selectors, filter: reducerFilter*/
 
-                                      //   MIDDELWARE
+  const epicMiddleware = createEpicMiddleware();
+                          //   MIDDELWARE
 const logger = store => (next) => {
     if (!console.group) {
       return next;
@@ -28,7 +32,9 @@ const logger = store => (next) => {
   // };
 
 const store = configureStore({
-    reducer: rootReducer, middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger) //.concat(asyncMiddleware)
+    reducer: rootReducer, middleware: [logger, epicMiddleware] //.concat(asyncMiddleware)
     
 })
+epicMiddleware.run(provaEpic);
+
 export default store
