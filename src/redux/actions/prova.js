@@ -47,11 +47,11 @@ export const taskAdd = (text) => ({
    id
   });
   export const taskSeeAll = () => ({
-    type: TASK_SEEALL   
+    type: TASK_SEEALL
   });
   //
   export const taskVisualTodo = () => ({
-    type: TASK_VISUALTODO   
+    type: TASK_VISUALTODO
   });
   export const configurationServerFetch = () => ({
     type: CONFIGURATION_SERVER_FETCH
@@ -59,17 +59,17 @@ export const taskAdd = (text) => ({
   export const configurationServerFetchCancel = () => ({
       type: CONFIGURATION_SERVER_FETCH_CANCEL
   });
-  export const configurationServerFetchFulfilled = payload => ({
+  export const configurationServerFetchFulfilled = (data, lastUpdate) => ({
     type: CONFIGURATION_SERVER_FETCH_FULFILLED,
-    data: payload.data,
-    lastUpdate: payload.lastUpdate
+    data: data,
+    lastUpdate: lastUpdate
   });
   export const configurationServerFetchRejected = err => ({
     type: CONFIGURATION_SERVER_FETCH_REJECTED,
     err,
     error: true
   });
-  
+
   export const actions = {
     taskAdd,
     taskEdit,

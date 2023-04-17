@@ -1,14 +1,14 @@
 import {
   CONFIGURATION_SERVER_FETCH, CONFIGURATION_SERVER_FETCH_CANCEL, CONFIGURATION_SERVER_FETCH_FULFILLED,
   CONFIGURATION_SERVER_FETCH_REJECTED,
-  
+
   TASK_ADD,TASK_EDIT,TASK_CANCEL,TASK_TOGGLED,TASK_SEEALL//,TASK_VISUALTODO
 } from '../actions/prova';
 export const selectors = {
     tasks: state => state.tasks
-  }  
-  
-  
+  }
+
+
   const DATA = [];
 
 
@@ -28,7 +28,7 @@ export default function reducer(state = initialState, action) {
         return {
             ...state,
               tasks:state.tasks.map(task => task.id === action.id ? {...task, name: action.newName} : task)
-        
+
         };
         case TASK_CANCEL:
           return {
@@ -43,7 +43,7 @@ export default function reducer(state = initialState, action) {
       case TASK_SEEALL:
           return {
               ...state,
-              tasks:state.tasks.map(task => (true) ? {...task,completed:true} : task)    
+              tasks:state.tasks.map(task => (true) ? {...task,completed:true} : task)
           };
       // case TASK_VISUALTODO:
       //   return {
@@ -61,7 +61,7 @@ export default function reducer(state = initialState, action) {
     case CONFIGURATION_SERVER_FETCH_FULFILLED:
       return {
         ...state,
-        data: action.data,
+        tasks: action.data,
         isFetching: false,
         fetchStatus: `Results from ${(new Date()).toLocaleString()}`,
         lastUpdate: action.lastUpdate
@@ -70,7 +70,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         isFetching: false,
-        fetchStatus: `errored: ${action.payload}`
+        fetchStatus: `errored: ${action.err}`
       };
     case CONFIGURATION_SERVER_FETCH_CANCEL:
       return {
@@ -81,5 +81,5 @@ export default function reducer(state = initialState, action) {
         default:
           return state;
     }
-    
+
   }
