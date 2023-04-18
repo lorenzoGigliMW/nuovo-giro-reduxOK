@@ -53,8 +53,10 @@ export const taskAdd = (text) => ({
   export const taskVisualTodo = () => ({
     type: TASK_VISUALTODO
   });
-  export const configurationServerFetch = () => ({
-    type: CONFIGURATION_SERVER_FETCH
+  export const configurationServerFetch = (data, lastUpdate) => ({
+    type: CONFIGURATION_SERVER_FETCH,
+    data,
+    lastUpdate
   });
   export const configurationServerFetchCancel = () => ({
       type: CONFIGURATION_SERVER_FETCH_CANCEL
