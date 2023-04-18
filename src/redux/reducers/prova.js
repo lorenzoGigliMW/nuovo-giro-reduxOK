@@ -55,7 +55,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         isFetching: true,
         fetchStatus: `fetching... ${(new Date()).toLocaleString()}`,
-        data: null,
+        tasks: action.data,
         lastUpdate: null
       };
     case CONFIGURATION_SERVER_FETCH_FULFILLED:
